@@ -2,16 +2,26 @@
 {% block content %}
 
     <div style="text-align:center; vertical-align:middle;">
-{#        <input type="text" class="s_ipt" name="wd" id="kw" maxlength="200" autocomplete="off">#}
         <h1>Search now!</h1>
     </div>
 
+{#    <div style="text-align:center; vertical-align:middle;">#}
+{#        <input type="text">#}
+{#        <input type="submit" value="Search" id="su" class="btn self-btn bg s_btn">#}
+{#    </div>#}
+
+
     <div style="text-align:center; vertical-align:middle;">
-{#        <input type="text" class="s_ipt" name="wd" id="kw" maxlength="200" autocomplete="off">#}
-        <input type="text">
-        <input type="submit" value="Search" id="su" class="btn self-btn bg s_btn">
+        <form method="POST" action='{{ url_for('coursesearch') }}'>
+            <input type="text" name="content" id="content" placeholder="请输入搜索内容">
+            <input type="submit" value="Search" id="su" class="btn self-btn bg s_btn">
+        </form>
     </div>
-{#    <input id="fakebox-input" autocomplete="off" tabindex="-1" type="url" aria-hidden="true">#}
+
+{#    <form method="POST" action="/wstmsearch">#}
+{#        <input type="search" name="keyword" ><br>#}
+{#        <input type="submit" value="搜索">#}
+{#    </form>#}
 
 
 {% endblock content %}

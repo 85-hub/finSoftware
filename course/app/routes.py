@@ -94,7 +94,8 @@ def account():
 def new_post():
     form = PostForm()
     if form.validate_on_submit():
-        post = Post(title=form.title.data, content=form.content.data, author=current_user)
+        # change
+        post = Post(title=form.title.data, score=form.score.data, content=form.content.data, author=current_user)
         db.session.add(post)
         db.session.commit()
         flash('Your assessment has been created!', 'success')
@@ -118,12 +119,15 @@ def update_post(post_id):
     form = PostForm()
     if form.validate_on_submit():
         post.title = form.title.data
+        # change
+        post.score = form.score.data
         post.content = form.content.data
         db.session.commit()
         flash('Your assessment has been updated!', 'success')
         return redirect(url_for('post', post_id=post.id))
     elif request.method == 'GET':
         form.title.data = post.title
+        post.score = form.score.data
         form.content.data = post.content
     return render_template('create_post.html', title='Update Post',
                            form=form, legend='Update Post')
@@ -145,3 +149,14 @@ def delete_post(post_id):
 @login_required
 def search():
     return render_template('search.html', title='Search')
+
+
+
+@app.route('/coursesearch', methods=['POST', 'GET'])
+@login_required
+def coursesearch():
+    content = request.form.get('content') #需要查询的内容
+    if content is None:
+        content = " "
+    quotes = Post.query.filter(Post.title.like("%"+content+"%")if content is not None else "").all() #查询跟content有关的数据，返回结果为列表
+    return render_template('coursesearch.html',quotes = quotes) #将查询结果返回到前端
